@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ohara Flora | Sydney Florist · Crafting moments, blooming love.</title>
+  <meta name="description" content="Ohara Flora is a Sydney floral studio. Hand-tied seasonal bouquets delivered fresh across the city the same day." />
+
+  <!-- Fonts: Cormorant Garamond (display), Lato (sub-heading), Open Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Phosphor icons (icon library, not hand-rolled SVG) -->
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:      "#FAF4E8",
+            creamdeep:  "#F1E7D1",
+            ink:        "#322E27",
+            rose:       "#C9426A",
+            rosedeep:   "#A93259",
+            sage:       "#7C8B6B",
+            forest:     "#2C352B",
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', "Georgia", "serif"],
+            sub:     ['"Lato"', "system-ui", "sans-serif"],
+            body:    ['"Open Sans"', "system-ui", "sans-serif"],
+          },
+          maxWidth: { content: "1320px" },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { background-color: #FAF4E8; color: #322E27; }
+    .font-display { letter-spacing: -0.01em; }
+    .eyebrow { font-family: "Lato", sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* Image hover zoom */
+    .img-zoom { overflow: hidden; }
+    .img-zoom img { transition: transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .img-zoom:hover img { transform: scale(1.06); }
+
+    /* Tactile button press */
+    .btn-press { transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease; }
+    .btn-press:active { transform: translateY(1px) scale(0.985); }
+
+    .link-underline { background-image: linear-gradient(currentColor,currentColor); background-size: 0% 1px; background-repeat: no-repeat; background-position: left bottom; transition: background-size 0.4s ease; }
+    .link-underline:hover { background-size: 100% 1px; }
+
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+
+    /* Customer marquee — seamless left-to-right loop */
+    .marquee { overflow: hidden; }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+      animation: marquee-ltr 48s linear infinite;
+    }
+    .marquee-item { flex: 0 0 auto; margin-right: 1.25rem; }
+    @keyframes marquee-ltr {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; transform: translateX(-50%); }
+    }
+
+    /* Arc gallery hero */
+    .arc-card { animation: arc-fade-in-up 0.8s ease-out forwards; opacity: 0; }
+    .arc-frame {
+      transform: rotate(var(--rot, 0deg));
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease;
+    }
+    .arc-card:hover { z-index: 60 !important; }
+    .arc-card:hover .arc-frame {
+      transform: rotate(var(--rot, 0deg)) translateY(-18px) scale(1.1);
+      box-shadow: 0 28px 55px rgba(50, 46, 39, 0.28);
+    }
+    .arc-content { animation: arc-fade-in 0.8s ease-out 0.8s forwards; opacity: 0; }
+    @keyframes arc-fade-in-up {
+      from { opacity: 0; transform: translate(-50%, 60%); }
+      to   { opacity: 1; transform: translate(-50%, 50%); }
+    }
+    @keyframes arc-fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .arc-card, .arc-content { animation: none !important; opacity: 1 !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .img-zoom img { transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body class="font-body antialiased">
+
+  <!-- Announcement bar -->
+  <div class="bg-forest text-cream/90 font-sub text-[0.72rem] tracking-[0.18em] uppercase text-center py-2.5 px-4">
+    Free same-day delivery across Sydney on orders placed before 1pm
+  </div>
+
+  <!-- Navigation -->
+  <header id="nav" class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-ink/10">
+    <nav class="max-w-content mx-auto px-5 lg:px-8 h-[68px] flex items-center justify-between">
+      <ul class="hidden lg:flex items-center gap-8 font-sub text-[0.82rem] tracking-wide text-ink/80 flex-1">
+        <li><a href="#occasions" class="link-underline hover:text-rose transition-colors">Shop by Occasion</a></li>
+        <li><a href="#story" class="link-underline hover:text-rose transition-colors">Our Story</a></li>
+        <li><a href="#gallery" class="link-underline hover:text-rose transition-colors">Gallery</a></li>
+      </ul>
+
+      <a href="#top" class="flex flex-col items-center leading-none lg:flex-1 lg:items-center">
+        <span class="font-display text-[1.9rem] md:text-[2.15rem] font-500 text-ink tracking-tight">Ohara Flora</span>
+        <span class="font-sub text-[0.55rem] tracking-[0.32em] uppercase text-rose mt-0.5">Sydney Floral Studio</span>
+      </a>
+
+      <div class="hidden lg:flex items-center gap-6 flex-1 justify-end font-sub text-[0.82rem] text-ink/80">
+        <a href="#contact" class="link-underline hover:text-rose transition-colors">Contact</a>
+        <a href="#occasions" class="btn-press inline-flex items-center gap-2 bg-rose text-cream px-5 py-2.5 rounded-full hover:bg-rosedeep">
+          <i class="ph ph-shopping-bag-open text-base"></i> Order Flowers
+        </a>
+      </div>
+
+      <button id="menuBtn" class="lg:hidden text-ink text-2xl" aria-label="Open menu"><i class="ph ph-list"></i></button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-ink/10 bg-cream px-5 py-5 font-sub text-base">
+      <a href="#occasions" class="block py-2.5 text-ink/85">Shop by Occasion</a>
+      <a href="#story" class="block py-2.5 text-ink/85">Our Story</a>
+      <a href="#gallery" class="block py-2.5 text-ink/85">Gallery</a>
+      <a href="#contact" class="block py-2.5 text-ink/85">Contact</a>
+      <a href="#occasions" class="mt-3 inline-flex items-center gap-2 bg-rose text-cream px-5 py-3 rounded-full">
+        <i class="ph ph-shopping-bag-open"></i> Order Flowers
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO — arc gallery -->
+  <section id="top" class="relative overflow-hidden flex flex-col items-center pt-10 lg:pt-14 pb-20 lg:pb-28">
+    <!-- Arc container (geometry driven by JS) -->
+    <div id="arcWrap" class="relative w-full mx-auto">
+      <div id="arcPivot" class="absolute left-1/2 bottom-0 -translate-x-1/2"></div>
+    </div>
+
+    <!-- Content below the arc -->
+    <div class="relative z-10 flex items-center justify-center px-6 -mt-32 md:-mt-44 lg:-mt-52">
+      <div class="text-center max-w-2xl arc-content">
+        <p class="eyebrow text-rose mb-6">Seasonal Florals, Hand-Tied in Sydney</p>
+        <h1 class="font-display font-500 text-ink text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight">
+          Crafting moments,<br /><span class="italic text-rose pb-1 inline-block">blooming</span> love.
+        </h1>
+        <p class="font-body text-ink/70 text-lg leading-relaxed mt-6 max-w-[46ch] mx-auto">
+          Garden-fresh stems, arranged by hand each morning and delivered to your door the same day.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-9">
+          <a href="#occasions" class="btn-press inline-flex items-center gap-2 bg-rose text-cream font-sub text-sm tracking-wide px-7 py-3.5 rounded-full hover:bg-rosedeep">
+            Shop by Occasion <i class="ph ph-arrow-right"></i>
+          </a>
+          <a href="#story" class="btn-press font-sub text-sm tracking-wide text-ink border border-ink/25 px-7 py-3.5 rounded-full hover:border-rose hover:text-rose">
+            Our Story
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OCCASIONS — bento grid, 5 cells for 5 items -->
+  <section id="occasions" class="max-w-content mx-auto px-5 lg:px-8 py-20 lg:py-28">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-12 reveal">
+      <div>
+        <p class="eyebrow text-rose mb-4">Find the Right Bloom</p>
+        <h2 class="font-display font-500 text-ink text-4xl md:text-5xl lg:text-6xl leading-[1.05]">Shop by occasion</h2>
+      </div>
+      <p class="font-body text-ink/65 max-w-[42ch] leading-relaxed">
+        Every bunch is tied to order. Tell us the moment and we will make it bloom.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 md:auto-rows-[260px]">
+      <!-- Big feature cell -->
+      <a href="#contact" class="img-zoom reveal group relative md:col-span-2 md:row-span-2 rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-anniversary.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=1100&q=80'" alt="Romantic bouquet of red and blush roses" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/75 via-forest/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-7 lg:p-9 text-cream">
+          <h3 class="font-display text-3xl lg:text-4xl font-500">Anniversary</h3>
+          <p class="font-sub text-sm text-cream/85 mt-1 flex items-center gap-2">Romance, in full bloom <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i></p>
+        </div>
+      </a>
+
+      <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-birthday.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=700&q=80'" alt="Bright cheerful birthday flowers" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6 text-cream">
+          <h3 class="font-display text-2xl lg:text-3xl font-500">Birthday</h3>
+          <p class="font-sub text-xs text-cream/80 mt-1">Make their day</p>
+        </div>
+      </a>
+
+      <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-newbaby.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=700&q=80'" alt="Delicate flowers to welcome a new baby" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6 text-cream">
+          <h3 class="font-display text-2xl lg:text-3xl font-500">New Baby</h3>
+          <p class="font-sub text-xs text-cream/80 mt-1">Soft and sweet</p>
+        </div>
+      </a>
+
+      <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-sympathy.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1509719662282-d35a5af0b3ea?auto=format&fit=crop&w=700&q=80'" alt="Calm white sympathy arrangement" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6 text-cream">
+          <h3 class="font-display text-2xl lg:text-3xl font-500">Sympathy</h3>
+          <p class="font-sub text-xs text-cream/80 mt-1">Quiet comfort</p>
+        </div>
+      </a>
+
+      <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-rose">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 text-cream">
+          <i class="ph ph-flower-lotus text-4xl mb-3 text-cream/90"></i>
+          <h3 class="font-display text-2xl lg:text-3xl font-500">Just Because</h3>
+          <p class="font-sub text-xs text-cream/85 mt-1">No reason needed</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- STORY — split, image left / text right -->
+  <section id="story" class="max-w-content mx-auto px-5 lg:px-8 py-20 lg:py-28">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div class="img-zoom reveal rounded-[1.75rem] overflow-hidden bg-creamdeep order-1 lg:order-none">
+        <img src="images/story.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=1000&q=80'" alt="Florist hand-tying a bouquet in the studio" class="w-full h-[380px] lg:h-[560px] object-cover" />
+      </div>
+      <div class="reveal">
+        <h2 class="font-display font-500 text-ink text-4xl md:text-5xl lg:text-6xl leading-[1.06]">
+          A small studio with a<br /><span class="italic text-rose pb-1 inline-block">big love</span> for flowers.
+        </h2>
+        <p class="font-body text-ink/70 text-lg leading-relaxed mt-7 max-w-[52ch]">
+          Ohara Flora began at a single bench in Sydney, with a flower market run before sunrise and a belief that a good bunch can change someone's whole day.
+        </p>
+        <p class="font-body text-ink/70 leading-relaxed mt-5 max-w-[52ch]">
+          We still tie every arrangement by hand, choose stems by what is freshest that morning, and never let a bouquet leave the studio unless we would happily send it to our own mum.
+        </p>
+        <a href="#contact" class="btn-press inline-flex items-center gap-2 mt-9 font-sub text-sm tracking-wide text-rose border border-rose/40 px-7 py-3.5 rounded-full hover:bg-rose hover:text-cream">
+          Say hello <i class="ph ph-hand-waving"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES — dark forest band, divided columns (no card boxes) -->
+  <section class="bg-forest text-cream">
+    <div class="max-w-content mx-auto px-5 lg:px-8 py-20 lg:py-28">
+      <div class="max-w-2xl reveal">
+        <p class="eyebrow text-rose/90 mb-5">Why Ohara</p>
+        <h2 class="font-display font-500 text-4xl md:text-5xl lg:text-6xl leading-[1.05]">The promise behind every bunch</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-cream/15 mt-14 rounded-[1.5rem] overflow-hidden">
+        <div class="bg-forest p-8 lg:p-9 reveal">
+          <i class="ph ph-plant text-rose text-4xl"></i>
+          <h3 class="font-display text-2xl font-500 mt-5">Picked in season</h3>
+          <p class="font-body text-cream/70 text-sm leading-relaxed mt-2.5">Sourced fresh from the Sydney flower market, so you get what is at its peak right now.</p>
+        </div>
+        <div class="bg-forest p-8 lg:p-9 reveal">
+          <i class="ph ph-flower text-rose text-4xl"></i>
+          <h3 class="font-display text-2xl font-500 mt-5">Tied by hand</h3>
+          <p class="font-body text-cream/70 text-sm leading-relaxed mt-2.5">No two bunches are the same. Each one is arranged the morning it is sent.</p>
+        </div>
+        <div class="bg-forest p-8 lg:p-9 reveal">
+          <i class="ph ph-moped text-rose text-4xl"></i>
+          <h3 class="font-display text-2xl font-500 mt-5">Same-day delivery</h3>
+          <p class="font-body text-cream/70 text-sm leading-relaxed mt-2.5">Order before 1pm and we will have your flowers across Sydney by evening.</p>
+        </div>
+        <div class="bg-forest p-8 lg:p-9 reveal">
+          <i class="ph ph-seal-check text-rose text-4xl"></i>
+          <h3 class="font-display text-2xl font-500 mt-5">7-day freshness</h3>
+          <p class="font-body text-cream/70 text-sm leading-relaxed mt-2.5">If your blooms do not last a full week, we will replace them. Simple as that.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS — offset 3-column, quotes <= 3 lines -->
+  <section class="max-w-content mx-auto px-5 lg:px-8 py-20 lg:py-28">
+    <h2 class="font-display font-500 text-ink text-4xl md:text-5xl lg:text-6xl leading-[1.05] max-w-[18ch] reveal">
+      Loved by Sydney, one bunch at a time
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6 lg:gap-8 mt-14">
+      <figure class="reveal md:mt-10">
+        <i class="ph ph-quotes text-rose text-3xl"></i>
+        <blockquote class="font-display text-2xl lg:text-[1.7rem] leading-snug text-ink mt-4">
+          "Turned up looking exactly like the photo and lasted nearly two weeks. My partner was over the moon."
+        </blockquote>
+        <figcaption class="font-sub text-sm mt-5 text-ink/70">
+          Eloise Tran <span class="text-ink/40">· Paddington</span>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal">
+        <i class="ph ph-quotes text-rose text-3xl"></i>
+        <blockquote class="font-display text-2xl lg:text-[1.7rem] leading-snug text-ink mt-4">
+          "Ordered at 11am for my mum's birthday and they arrived by 4. The smell when she opened the door, honestly."
+        </blockquote>
+        <figcaption class="font-sub text-sm mt-5 text-ink/70">
+          Marcus Whitfield <span class="text-ink/40">· Surry Hills</span>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal md:mt-10">
+        <i class="ph ph-quotes text-rose text-3xl"></i>
+        <blockquote class="font-display text-2xl lg:text-[1.7rem] leading-snug text-ink mt-4">
+          "I send flowers to clients every month and Ohara is the only studio I trust to get it right every time."
+        </blockquote>
+        <figcaption class="font-sub text-sm mt-5 text-ink/70">
+          Priya Nadkarni <span class="text-ink/40">· Mosman</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- HAPPY CUSTOMERS — horizontal scroll-snap row -->
+  <section class="py-16 lg:py-20 overflow-hidden">
+    <div class="max-w-content mx-auto px-5 lg:px-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 reveal">
+      <h2 class="font-display font-500 text-ink text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
+        The faces behind the <span class="italic text-rose pb-1 inline-block">smiles</span>
+      </h2>
+      <p class="font-body text-ink/65 max-w-[36ch] leading-relaxed">
+        Real moments from real customers. Tag us and your bloom might land here too.
+      </p>
+    </div>
+
+    <div class="marquee reveal">
+      <div id="customerTrack" class="marquee-track" aria-label="Photos from Ohara Flora customers"></div>
+    </div>
+  </section>
+
+  <!-- GALLERY — Instagram bento, 6 cells -->
+  <section id="gallery" class="max-w-content mx-auto px-5 lg:px-8 py-16 lg:py-20">
+    <div class="text-center mb-12 reveal">
+      <h2 class="font-display font-500 text-ink text-4xl md:text-5xl lg:text-6xl leading-[1.05]">Follow the bloom</h2>
+      <a href="https://instagram.com" class="font-sub text-rose text-sm tracking-wide inline-flex items-center gap-2 mt-3 link-underline">
+        <i class="ph ph-instagram-logo text-lg"></i> @oharaflora
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 reveal">
+      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square md:row-span-2 md:aspect-auto">
+        <img src="images/gallery-1.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1457089328109-e5d9bd499191?auto=format&fit=crop&w=700&q=80'" alt="Studio bouquet" class="w-full h-full object-cover" />
+      </a>
+      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-2.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=500&q=80'" alt="Dried floral detail" class="w-full h-full object-cover" />
+      </a>
+      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-3.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502809578764-2b1d3bcf8a09?auto=format&fit=crop&w=500&q=80'" alt="Pastel tulips" class="w-full h-full object-cover" />
+      </a>
+      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-4.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1500627964684-141351970a7f?auto=format&fit=crop&w=500&q=80'" alt="Wrapped bouquet" class="w-full h-full object-cover" />
+      </a>
+      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-5.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1454944338482-a69bb95894af?auto=format&fit=crop&w=500&q=80'" alt="Single rose" class="w-full h-full object-cover" />
+      </a>
+      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-6.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=500&q=80'" alt="Seasonal arrangement" class="w-full h-full object-cover" />
+      </a>
+      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-7.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=80'" alt="Posy of fresh blooms" class="w-full h-full object-cover" />
+      </a>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="max-w-content mx-auto px-5 lg:px-8 pb-20 lg:pb-28">
+    <div class="bg-rose rounded-[1.75rem] px-6 py-14 md:px-14 lg:py-20 text-center reveal">
+      <h2 class="font-display font-500 text-cream text-4xl md:text-5xl lg:text-6xl leading-[1.05] max-w-[20ch] mx-auto">
+        Fresh drops, seasonal blooms, the occasional treat.
+      </h2>
+      <form id="signup" class="mt-10 max-w-md mx-auto" novalidate>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <label for="email" class="sr-only">Email address</label>
+          <input id="email" type="email" required placeholder="Your email address"
+            class="flex-1 bg-cream text-ink placeholder-ink/45 font-body text-sm rounded-full px-6 py-3.5 outline-none focus:ring-2 focus:ring-cream/70" />
+          <button type="submit" class="btn-press bg-forest text-cream font-sub text-sm tracking-wide px-7 py-3.5 rounded-full hover:bg-ink whitespace-nowrap">
+            Join the list
+          </button>
+        </div>
+        <p id="formMsg" class="font-sub text-sm text-cream mt-4 h-5"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER — forest, consistent with values band -->
+  <footer id="contact" class="bg-forest text-cream/85">
+    <div class="max-w-content mx-auto px-5 lg:px-8 py-16 lg:py-20">
+      <div class="grid md:grid-cols-[1.5fr_1fr_1fr] gap-12">
+        <div>
+          <span class="font-display text-3xl font-500 text-cream">Ohara Flora</span>
+          <p class="font-display italic text-rose/90 text-xl mt-1">Crafting moments, blooming love.</p>
+          <p class="font-body text-cream/65 text-sm leading-relaxed mt-5 max-w-[40ch]">
+            A Sydney floral studio delivering hand-tied, garden-fresh bouquets across the city, seven days a week.
+          </p>
+        </div>
+
+        <div class="font-body text-sm">
+          <h4 class="font-sub uppercase tracking-[0.2em] text-[0.7rem] text-cream/55 mb-4">Visit</h4>
+          <p class="leading-relaxed text-cream/75">42 Glenmore Road<br />Paddington NSW 2021</p>
+          <p class="mt-4 text-cream/75">Mon to Sat, 8am to 6pm<br />Sun, 9am to 2pm</p>
+        </div>
+
+        <div class="font-body text-sm">
+          <h4 class="font-sub uppercase tracking-[0.2em] text-[0.7rem] text-cream/55 mb-4">Get in touch</h4>
+          <a href="tel:+61291234567" class="block text-cream/75 hover:text-rose transition-colors link-underline w-fit">(02) 9123 4567</a>
+          <a href="mailto:hello@oharaflora.com.au" class="block mt-2 text-cream/75 hover:text-rose transition-colors link-underline w-fit">hello@oharaflora.com.au</a>
+          <div class="flex gap-4 mt-5 text-xl">
+            <a href="https://instagram.com" aria-label="Instagram" class="hover:text-rose transition-colors"><i class="ph ph-instagram-logo"></i></a>
+            <a href="https://facebook.com" aria-label="Facebook" class="hover:text-rose transition-colors"><i class="ph ph-facebook-logo"></i></a>
+            <a href="https://pinterest.com" aria-label="Pinterest" class="hover:text-rose transition-colors"><i class="ph ph-pinterest-logo"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-cream/15 mt-14 pt-7 flex flex-col sm:flex-row items-center justify-between gap-4 font-body text-xs text-cream/50">
+        <p>&copy; 2026 Ohara Flora. Made with care in Sydney.</p>
+        <div class="flex items-center gap-4 text-lg text-cream/60">
+          <i class="ph ph-credit-card" title="Card payments"></i>
+          <i class="ph ph-apple-logo" title="Apple Pay"></i>
+          <i class="ph ph-paypal-logo" title="PayPal"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PLACEHOLDER_SCRIPT -->
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+      menuBtn.innerHTML = mobileMenu.classList.contains("hidden")
+        ? '<i class="ph ph-list"></i>'
+        : '<i class="ph ph-x"></i>';
+    });
+    mobileMenu.querySelectorAll("a").forEach((a) =>
+      a.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+        menuBtn.innerHTML = '<i class="ph ph-list"></i>';
+      })
+    );
+
+    // Scroll reveal via IntersectionObserver (respects reduced motion)
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reveals = document.querySelectorAll(".reveal");
+    if (reduce) {
+      reveals.forEach((el) => el.classList.add("in"));
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      );
+      reveals.forEach((el) => io.observe(el));
+    }
+
+    // Arc gallery hero
+    const arcImages = [
+      "images/arc-1.jpg",  "images/arc-2.jpg",  "images/arc-3.jpg",  "images/arc-4.jpg",
+      "images/arc-5.jpg",  "images/arc-6.jpg",  "images/arc-7.jpg",  "images/arc-8.jpg",
+      "images/arc-9.jpg",  "images/arc-10.jpg", "images/arc-11.jpg", "images/arc-12.jpg",
+    ];
+    // Fallback sample photos (used only if your file is missing)
+    const arcFallback = [
+      "https://images.unsplash.com/photo-1561181286-d3fee7d55364",
+      "https://images.unsplash.com/photo-1508610048659-a06b669e3321",
+      "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac",
+      "https://images.unsplash.com/photo-1487530811176-3780de880c2d",
+      "https://images.unsplash.com/photo-1457089328109-e5d9bd499191",
+      "https://images.unsplash.com/photo-1502809578764-2b1d3bcf8a09",
+      "https://images.unsplash.com/photo-1500627964684-141351970a7f",
+      "https://images.unsplash.com/photo-1454944338482-a69bb95894af",
+      "https://images.unsplash.com/photo-1526047932273-341f2a7631f9",
+      "https://images.unsplash.com/photo-1563241527-3004b7be0ffd",
+      "https://images.unsplash.com/photo-1606041008023-472dfb5e530f",
+      "https://images.unsplash.com/photo-1509719662282-d35a5af0b3ea",
+    ];
+
+    const ARC = { startAngle: 20, endAngle: 160 };
+    const arcWrap = document.getElementById("arcWrap");
+    const arcPivot = document.getElementById("arcPivot");
+
+    function arcDims() {
+      const w = window.innerWidth;
+      if (w < 640) return { radius: 168, card: 68 };
+      if (w < 1024) return { radius: 330, card: 100 };
+      return { radius: 460, card: 120 };
+    }
+
+    function buildArc() {
+      const { radius, card } = arcDims();
+      const count = Math.max(arcImages.length, 2);
+      const step = (ARC.endAngle - ARC.startAngle) / (count - 1);
+      arcWrap.style.height = radius * 1.15 + "px";
+      arcPivot.innerHTML = "";
+
+      arcImages.forEach((src, i) => {
+        const angle = ARC.startAngle + step * i;
+        const rad = (angle * Math.PI) / 180;
+        const x = Math.cos(rad) * radius;
+        const y = Math.sin(rad) * radius;
+
+        const cell = document.createElement("div");
+        cell.className = "absolute arc-card";
+        cell.style.cssText =
+          `width:${card}px;height:${card}px;left:calc(50% + ${x}px);bottom:${y}px;` +
+          `animation-delay:${i * 100}ms;z-index:${count - i};`;
+
+        const frame = document.createElement("div");
+        frame.className =
+          "arc-frame rounded-2xl shadow-xl overflow-hidden ring-1 ring-ink/10 bg-creamdeep w-full h-full";
+        frame.style.setProperty("--rot", `${angle / 4}deg`);
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `Ohara Flora bloom ${i + 1}`;
+        img.draggable = false;
+        img.className = "block w-full h-full object-cover";
+        img.addEventListener("error", () => {
+          img.onerror = null;
+          img.src = arcFallback[i % arcFallback.length] + "?auto=format&fit=crop&w=400&q=80";
+        });
+
+        frame.appendChild(img);
+        cell.appendChild(frame);
+        arcPivot.appendChild(cell);
+      });
+    }
+
+    buildArc();
+    let arcTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(arcTimer);
+      arcTimer = setTimeout(buildArc, 150);
+    });
+
+    // Customer marquee — build track and duplicate for a seamless loop
+    const customerMedia = [
+      { type: "video", src: "images/customer-1.mp4" },
+      { type: "video", src: "images/customer-2.mp4" },
+      { type: "video", src: "images/customer-3.mp4" },
+      { type: "video", src: "images/customer-4.mp4" },
+      { type: "video", src: "images/customer-5.mp4" },
+      { type: "video", src: "images/customer-6.mp4" },
+      { type: "video", src: "images/customer-7.mp4" },
+      { type: "video", src: "images/customer-8.mp4" },
+      { type: "video", src: "images/customer-9.mp4" },
+      { type: "video", src: "images/customer-10.mp4" },
+      { type: "video", src: "images/customer-11.mp4" },
+      { type: "video", src: "images/customer-12.mp4" },
+    ];
+    const customerTrack = document.getElementById("customerTrack");
+
+    function makeCustomerItem(item, i, dup) {
+      const wrap = document.createElement("div");
+      wrap.className =
+        "marquee-item img-zoom rounded-[1.25rem] overflow-hidden bg-creamdeep w-[240px] md:w-[280px] aspect-[4/5]";
+      if (dup) wrap.setAttribute("aria-hidden", "true");
+
+      const el = document.createElement("video");
+      el.src = item.src;
+      el.muted = true;
+      el.loop = true;
+      el.playsInline = true;
+      el.preload = "metadata";
+      el.setAttribute("muted", "");
+      el.setAttribute("playsinline", "");
+      el.className = "w-full h-full object-cover";
+      wrap.appendChild(el);
+      return wrap;
+    }
+
+    if (customerTrack) {
+      // Two identical sets back-to-back; track animates between -50% and 0
+      [0, 1].forEach((set) =>
+        customerMedia.forEach((item, i) =>
+          customerTrack.appendChild(makeCustomerItem(item, i, set === 1))
+        )
+      );
+
+      // Performance: only play videos that are actually on screen.
+      // 24 videos playing at once would choke mobile devices.
+      const vids = [...customerTrack.querySelectorAll("video")];
+      if ("IntersectionObserver" in window) {
+        const vio = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              const v = e.target;
+              if (e.isIntersecting) {
+                const p = v.play();
+                if (p && p.catch) p.catch(() => {});
+              } else {
+                v.pause();
+              }
+            });
+          },
+          { root: null, threshold: 0.25 }
+        );
+        vids.forEach((v) => vio.observe(v));
+      } else {
+        vids.forEach((v) => {
+          const p = v.play();
+          if (p && p.catch) p.catch(() => {});
+        });
+      }
+    }
+
+    // Newsletter form
+    const signup = document.getElementById("signup");
+    const formMsg = document.getElementById("formMsg");
+    signup.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email");
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      if (!valid) {
+        formMsg.textContent = "Please pop in a valid email address.";
+        return;
+      }
+      signup.reset();
+      formMsg.textContent = "Lovely. You are on the list, keep an eye on your inbox.";
+    });
+  </script>
+
+</body>
+</html>
