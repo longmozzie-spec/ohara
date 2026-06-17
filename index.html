@@ -62,6 +62,37 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
 
+    /* Clickable images open a lightbox */
+    .zoomable { cursor: zoom-in; }
+    #lightbox {
+      position: fixed; inset: 0; z-index: 90;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      background: rgba(44, 53, 43, 0.88);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #lightbox.open { opacity: 1; visibility: visible; }
+    #lightbox img {
+      max-width: min(92vw, 1100px); max-height: 88vh;
+      border-radius: 1rem; box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      transform: scale(0.94); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      object-fit: contain;
+    }
+    #lightbox.open img { transform: scale(1); }
+    #lightboxClose {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      width: 48px; height: 48px; border-radius: 9999px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(250, 244, 232, 0.15); color: #FAF4E8;
+      font-size: 1.5rem; cursor: pointer; border: 0;
+      transition: background 0.25s ease;
+    }
+    #lightboxClose:hover { background: rgba(250, 244, 232, 0.3); }
+    @media (prefers-reduced-motion: reduce) {
+      #lightbox, #lightbox img { transition: none; }
+    }
+
     /* Customer marquee — seamless left-to-right loop */
     .marquee { overflow: hidden; }
     .marquee-track {
@@ -196,41 +227,41 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 md:auto-rows-[260px]">
       <!-- Big feature cell -->
-      <a href="#contact" class="img-zoom reveal group relative md:col-span-2 md:row-span-2 rounded-[1.5rem] overflow-hidden bg-creamdeep">
-        <img src="images/occasion-anniversary.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=1100&q=80'" alt="Romantic bouquet of red and blush roses" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-forest/75 via-forest/10 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-7 lg:p-9 text-cream">
+      <div class="img-zoom reveal group relative md:col-span-2 md:row-span-2 rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-anniversary.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=1100&q=80'" alt="Romantic bouquet of red and blush roses" class="zoomable w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/75 via-forest/10 to-transparent pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 p-7 lg:p-9 text-cream pointer-events-none">
           <h3 class="font-display text-3xl lg:text-4xl font-500">Anniversary</h3>
           <p class="font-sub text-sm text-cream/85 mt-1 flex items-center gap-2">Romance, in full bloom <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i></p>
         </div>
-      </a>
+      </div>
 
-      <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
-        <img src="images/occasion-birthday.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=700&q=80'" alt="Bright cheerful birthday flowers" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-6 text-cream">
+      <div class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-birthday.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=700&q=80'" alt="Bright cheerful birthday flowers" class="zoomable w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 p-6 text-cream pointer-events-none">
           <h3 class="font-display text-2xl lg:text-3xl font-500">Birthday</h3>
           <p class="font-sub text-xs text-cream/80 mt-1">Make their day</p>
         </div>
-      </a>
+      </div>
 
-      <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
-        <img src="images/occasion-newbaby.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=700&q=80'" alt="Delicate flowers to welcome a new baby" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-6 text-cream">
+      <div class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-newbaby.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=700&q=80'" alt="Delicate flowers to welcome a new baby" class="zoomable w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 p-6 text-cream pointer-events-none">
           <h3 class="font-display text-2xl lg:text-3xl font-500">New Baby</h3>
           <p class="font-sub text-xs text-cream/80 mt-1">Soft and sweet</p>
         </div>
-      </a>
+      </div>
 
-      <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
-        <img src="images/occasion-sympathy.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1509719662282-d35a5af0b3ea?auto=format&fit=crop&w=700&q=80'" alt="Calm white sympathy arrangement" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-6 text-cream">
+      <div class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-creamdeep">
+        <img src="images/occasion-sympathy.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1509719662282-d35a5af0b3ea?auto=format&fit=crop&w=700&q=80'" alt="Calm white sympathy arrangement" class="zoomable w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-forest/70 to-transparent pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 p-6 text-cream pointer-events-none">
           <h3 class="font-display text-2xl lg:text-3xl font-500">Sympathy</h3>
           <p class="font-sub text-xs text-cream/80 mt-1">Quiet comfort</p>
         </div>
-      </a>
+      </div>
 
       <a href="#contact" class="img-zoom reveal group relative rounded-[1.5rem] overflow-hidden bg-rose">
         <div class="absolute inset-0 flex flex-col justify-end p-6 text-cream">
@@ -246,7 +277,7 @@
   <section id="story" class="max-w-content mx-auto px-5 lg:px-8 py-20 lg:py-28">
     <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
       <div class="img-zoom reveal rounded-[1.75rem] overflow-hidden bg-creamdeep order-1 lg:order-none">
-        <img src="images/story.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=1000&q=80'" alt="Florist hand-tying a bouquet in the studio" class="w-full h-[380px] lg:h-[560px] object-cover" />
+        <img src="images/story.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=1000&q=80'" alt="Florist hand-tying a bouquet in the studio" class="zoomable w-full h-[380px] lg:h-[560px] object-cover" />
       </div>
       <div class="reveal">
         <h2 class="font-display font-500 text-ink text-4xl md:text-5xl lg:text-6xl leading-[1.06]">
@@ -363,27 +394,27 @@
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 reveal">
-      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square md:row-span-2 md:aspect-auto">
-        <img src="images/gallery-1.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1457089328109-e5d9bd499191?auto=format&fit=crop&w=700&q=80'" alt="Studio bouquet" class="w-full h-full object-cover" />
-      </a>
-      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
-        <img src="images/gallery-2.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=500&q=80'" alt="Dried floral detail" class="w-full h-full object-cover" />
-      </a>
-      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
-        <img src="images/gallery-3.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502809578764-2b1d3bcf8a09?auto=format&fit=crop&w=500&q=80'" alt="Pastel tulips" class="w-full h-full object-cover" />
-      </a>
-      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
-        <img src="images/gallery-4.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1500627964684-141351970a7f?auto=format&fit=crop&w=500&q=80'" alt="Wrapped bouquet" class="w-full h-full object-cover" />
-      </a>
-      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
-        <img src="images/gallery-5.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1454944338482-a69bb95894af?auto=format&fit=crop&w=500&q=80'" alt="Single rose" class="w-full h-full object-cover" />
-      </a>
-      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
-        <img src="images/gallery-6.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=500&q=80'" alt="Seasonal arrangement" class="w-full h-full object-cover" />
-      </a>
-      <a href="https://instagram.com" class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
-        <img src="images/gallery-7.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=80'" alt="Posy of fresh blooms" class="w-full h-full object-cover" />
-      </a>
+      <div class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square md:row-span-2 md:aspect-auto">
+        <img src="images/gallery-1.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1457089328109-e5d9bd499191?auto=format&fit=crop&w=700&q=80'" alt="Studio bouquet" class="zoomable w-full h-full object-cover" />
+      </div>
+      <div class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-2.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=500&q=80'" alt="Dried floral detail" class="zoomable w-full h-full object-cover" />
+      </div>
+      <div class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-3.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502809578764-2b1d3bcf8a09?auto=format&fit=crop&w=500&q=80'" alt="Pastel tulips" class="zoomable w-full h-full object-cover" />
+      </div>
+      <div class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-4.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1500627964684-141351970a7f?auto=format&fit=crop&w=500&q=80'" alt="Wrapped bouquet" class="zoomable w-full h-full object-cover" />
+      </div>
+      <div class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-5.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1454944338482-a69bb95894af?auto=format&fit=crop&w=500&q=80'" alt="Single rose" class="zoomable w-full h-full object-cover" />
+      </div>
+      <div class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-6.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=500&q=80'" alt="Seasonal arrangement" class="zoomable w-full h-full object-cover" />
+      </div>
+      <div class="img-zoom rounded-2xl overflow-hidden bg-creamdeep aspect-square">
+        <img src="images/gallery-7.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=80'" alt="Posy of fresh blooms" class="zoomable w-full h-full object-cover" />
+      </div>
     </div>
   </section>
 
@@ -448,8 +479,46 @@
     </div>
   </footer>
 
+  <!-- Lightbox: click any image to view it large -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button id="lightboxClose" aria-label="Close image viewer"><i class="ph ph-x"></i></button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
   <!-- PLACEHOLDER_SCRIPT -->
   <script>
+    // Lightbox: open any .zoomable image large, click outside or Esc to close
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxClose = document.getElementById("lightboxClose");
+
+    function openLightbox(src, alt) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || "";
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    // Event delegation so images added later (hero arc) also work
+    document.addEventListener("click", (e) => {
+      const img = e.target.closest(".zoomable");
+      if (img && img.tagName === "IMG") {
+        e.preventDefault();
+        openLightbox(img.currentSrc || img.src, img.alt);
+      }
+    });
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+    });
+
     // Mobile menu toggle
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
@@ -547,7 +616,7 @@
         img.src = src;
         img.alt = `Ohara Flora bloom ${i + 1}`;
         img.draggable = false;
-        img.className = "block w-full h-full object-cover";
+        img.className = "zoomable block w-full h-full object-cover";
         img.addEventListener("error", () => {
           img.onerror = null;
           img.src = arcFallback[i % arcFallback.length] + "?auto=format&fit=crop&w=400&q=80";
